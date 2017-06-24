@@ -2,12 +2,12 @@
   "name": "reeasy",
   "version": "0.0.1",
   "description": "A hot module replacement framework for React apps",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "dev": "NODE_ENV=development node server.js"
+    "test": "mocha --recursive"
   },
   "bin": {
-    "reeasy": "bin/cli.js"
+    "reeasy": "bin/reeasy.js"
   },
   "keywords": [
     "react",
@@ -30,19 +30,29 @@
     "babel-preset-env": "^1.5.2",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "bluebird": "^3.5.0",
+    "commander": "^2.10.0",
     "eventsource-polyfill": "^0.9.6",
+    "express": "^4.15.3",
+    "finalhandler": "^1.0.3",
     "lodash.findindex": "^4.6.0",
     "lodash.isfunction": "^3.0.8",
-    "mkdirp": "^0.5.1",
+    "lodash.isstring": "^4.0.1",
+    "mkdirp-then": "^1.2.0",
     "react-hot-loader": "^3.0.0-beta.7",
-    "rimraf": "^2.6.1",
-    "uuid": "^3.1.0",
+    "rimraf-then": "^1.0.1",
+    "serve-static": "^1.12.3",
+    "url-pattern": "^1.0.3",
     "webpack": "^3.0.0",
-    "webpack-dev-middleware": "^1.10.2",
+    "webpack-dev-middleware": "^1.11.0",
     "webpack-hot-middleware": "^2.18.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lonord/reeasy.js.git"
+  },
   "devDependencies": {
-    "express": "^4.15.3",
+    "mocha": "^3.4.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   }
