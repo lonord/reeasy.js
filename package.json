@@ -4,7 +4,7 @@
   "description": "A hot module replacement framework for React apps",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha 'test/**/test.*.js' --timeout 60000"
   },
   "bin": {
     "reeasy": "bin/reeasy.js"
@@ -52,8 +52,11 @@
     "url": "git+https://github.com/lonord/reeasy.js.git"
   },
   "devDependencies": {
+    "file-exists-promise": "^1.0.2",
+    "lodash.find": "^4.6.0",
     "mocha": "^3.4.2",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "timeout-as-promise": "^1.0.0"
   }
 }
