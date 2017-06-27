@@ -23,7 +23,15 @@ describe('test builder.js', () => {
 			let config = await builder.readConfig('custom-reeasy-config.js', cwd)
 			assert.ok(!!config)
 			assert.equal(config.rootPath, './app.js')
-			assert.equal(config.selector, '#root')
+			assert.equal(config.selector, '.root')
+		})
+
+		it('readConfig from custom path another should run successfully', async() => {
+			let cwd = path.join(__dirname, 'test.builder.env1')
+			let config = await builder.readConfig('custom-reeasy-config2.js', cwd)
+			assert.ok(!!config)
+			assert.equal(config.rootPath, './app.js')
+			assert.equal(config.selector, 'article')
 		})
 
 		it('readConfig from object should run successfully', async() => {
@@ -110,6 +118,26 @@ describe('test builder.js', () => {
 			assert.ok(find(webpackConfig.entry, entry => entry == path.join(cwd, './.reeasy/__entry.js')))
 			assert.ok(find(webpackConfig.plugins, plugin => plugin instanceof webpack.DefinePlugin))
 			assert.ok(find(webpackConfig.plugins, plugin => plugin instanceof webpack.optimize.UglifyJsPlugin))
+			let entryFileStat = await fileExists(path.join(cwd, './.reeasy/__entry.js'))
+			assert.ok(!!entryFileStat)
+		})
+
+		it('prepareWebpack in development mode with custom selector', async() => {
+			let cwd = path.join(__dirname, 'test.builder.env1')
+			let config = await builder.readConfig('custom-reeasy-config.js', cwd)
+			assert.ok(!!config)
+			let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+			assert.ok(!!webpackConfig)
+			let entryFileStat = await fileExists(path.join(cwd, './.reeasy/__entry.js'))
+			assert.ok(!!entryFileStat)
+		})
+
+		it('prepareWebpack in development mode with another custom selector', async() => {
+			let cwd = path.join(__dirname, 'test.builder.env1')
+			let config = await builder.readConfig('custom-reeasy-config2.js', cwd)
+			assert.ok(!!config)
+			let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+			assert.ok(!!webpackConfig)
 			let entryFileStat = await fileExists(path.join(cwd, './.reeasy/__entry.js'))
 			assert.ok(!!entryFileStat)
 		})

@@ -1,4 +1,4 @@
 module.exports = {
 	rootPath: './app.js',
-	selector: '.root'
+	selector: 'article'
 }
