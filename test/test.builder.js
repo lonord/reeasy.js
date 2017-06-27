@@ -76,6 +76,7 @@ describe('test builder.js', () => {
 		afterEach(async () => {
 			await rimraf(path.join(__dirname, 'test.builder.env1/.reeasy'))
 			await rimraf(path.join(__dirname, 'test.builder.env2/.reeasy'))
+			await rimraf(path.join(__dirname, 'test.builder.env3/.reeasy'))
 		})		
 
 		it('prepareWebpack in development mode should run successfully', async() => {
@@ -111,6 +112,26 @@ describe('test builder.js', () => {
 			assert.ok(find(webpackConfig.plugins, plugin => plugin instanceof webpack.optimize.UglifyJsPlugin))
 			let entryFileStat = await fileExists(path.join(cwd, './.reeasy/__entry.js'))
 			assert.ok(!!entryFileStat)
+		})
+
+		it('prepareWebpack in development mode with custom webpack and babel config', async() => {
+			let cwd = path.join(__dirname, 'test.builder.env3')
+			let config = await builder.readConfig(null, cwd)
+			assert.ok(!!config)
+			let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+			assert.ok(!!webpackConfig)
+			assert.ok(find(webpackConfig.plugins, plugin => plugin instanceof webpack.BannerPlugin))
+			assert.ok(find(webpackConfig.module.loaders[0].use.options.plugins, plugin => plugin == 'babel-plugin-my-dev'))
+		})
+
+		it('prepareWebpack in production mode with custom webpack and babel config', async() => {
+			let cwd = path.join(__dirname, 'test.builder.env3')
+			let config = await builder.readConfig(null, cwd)
+			assert.ok(!!config)
+			let webpackConfig = await builder.prepareWebpack(config, false, cwd)
+			assert.ok(!!webpackConfig)
+			assert.ok(find(webpackConfig.plugins, plugin => plugin instanceof webpack.IgnorePlugin))
+			assert.ok(find(webpackConfig.module.loaders[0].use.options.plugins, plugin => plugin == 'babel-plugin-my-prod'))
 		})
 	})
 
@@ -149,7 +170,7 @@ describe('test builder.js', () => {
 			let webpackConfig = await builder.prepareWebpack(config, true, cwd)
 			let middleWare = await builder.getDevMiddleware(webpackConfig, config, cwd)
 			assert.ok(!!middleWare)
-			await delay(5 * 1000)  //wait for middleware to compile using webpack
+			await middleWare.closeWebpack()
 		})
 
 	})

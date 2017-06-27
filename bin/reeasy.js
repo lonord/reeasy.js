@@ -5,6 +5,8 @@ const package = require('../package.json')
 const builder = require('../lib/builder')
 const server = require('../lib/server')
 
+let handled = false
+
 program
 	.version(package.version)
 	.usage('<dev|build|start>')
@@ -14,6 +16,7 @@ program
 	.description('Run reeasy to build files for production')
 	.option('-c, --config <value>', 'Custom reeasy config file')
 	.action((options) => {
+		handled = true
 		const cwd = process.cwd()
 		process.env.NODE_ENV = 'production'
 		Promise.resolve()
@@ -30,6 +33,7 @@ program
 	.description('Run reeasy in development mode')
 	.option('-p, --port <n>', 'Port to listen for http server')
 	.action((options) => {
+		handled = true
 		const cwd = process.cwd()
 		process.env.NODE_ENV = 'production'
 		let port = parseInt(options.port)
@@ -39,7 +43,8 @@ program
 		Promise.resolve()
 			.then(() => builder.readConfig(options.config, cwd))
 			.then(config => builder.getProdMiddleware(config, cwd))
-			.then(middleWare => server.createServer(middleWare, port))
+			.then(middleWare => server.createServer(middleWare))
+			.then(app => app.listen(port))
 			.then(() => {
 				console.log('> Ready on http://localhost:' + port)
 			})
@@ -54,6 +59,7 @@ program
 	.option('-c, --config <value>', 'Custom reeasy config file')
 	.option('-p, --port <n>', 'Port to listen for http server')
 	.action((options) => {
+		handled = true
 		const cwd = process.cwd()
 		process.env.NODE_ENV = 'development'
 		let port = parseInt(options.port)
@@ -69,7 +75,8 @@ program
 				}))
 			})
 			.then(result => builder.getDevMiddleware(result.webpackConfig, result.config, cwd))
-			.then(middleWare => server.createServer(middleWare, port))
+			.then(middleWare => server.createServer(middleWare))
+			.then(app => app.listen(port))
 			.then(() => {
 				console.log('> Ready on http://localhost:' + port)
 			})
@@ -79,3 +86,7 @@ program
 	})
 
 program.parse(process.argv);
+
+if (!handled) {
+	program.help()
+}
