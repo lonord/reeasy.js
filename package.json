@@ -4,7 +4,8 @@
   "description": "A hot module replacement framework for React apps",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha 'test/**/test.*.js' --timeout 60000"
+    "test": "mocha 'test/**/test.*.js' --timeout 60000",
+    "test-cover": "istanbul cover _mocha -- 'test/**/test.*.js' --timeout 60000"
   },
   "bin": {
     "reeasy": "bin/reeasy.js"
@@ -54,6 +55,7 @@
   "devDependencies": {
     "coffee": "^4.0.1",
     "file-exists-promise": "^1.0.2",
+    "istanbul": "^0.4.5",
     "lodash.find": "^4.6.0",
     "mocha": "^3.4.2",
     "react": "^15.6.1",
