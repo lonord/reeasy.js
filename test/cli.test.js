@@ -1,10 +1,12 @@
 const coffee = require('coffee')
 const child = require('child_process')
 const path = require('path')
+const fs = require('fs')
+const assert = require('assert')
 const rimraf = require('rimraf-then')
 const request = require('supertest')
 
-describe('test server', () => {
+describe('test cli', () => {
 
 	afterEach(async () => {
 		await rimraf(path.join(__dirname, 'test.builder.env1/.reeasy'))
@@ -46,7 +48,11 @@ describe('test server', () => {
 		})
 			.expect('stdout', '')
 			.expect('code', 0)
-			.end(done)
+			.end(() => {
+				let bundleContent = fs.readFileSync(path.join(__dirname, 'test.builder.env1/.dist/bundle.js'), 'utf8')
+				assert.ok(!(/\/\*/.test(bundleContent)))
+				done()
+			})
 	})
 
 	it('reeasy build with custom config should success', done => {

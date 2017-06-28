@@ -7,7 +7,7 @@ const fileExists = require('file-exists-promise')
 const delay = require('timeout-as-promise')
 const builder = require('../lib/builder')
 
-describe('test builder.js', () => {
+describe('test builder', () => {
 
 	describe('readConfig', () => {
 		it('readConfig normally should run successfully', async() => {
@@ -180,6 +180,8 @@ describe('test builder.js', () => {
 			assert.ok(!!output)
 			let bundleFileStat = await fileExists(path.join(cwd, '.dist/bundle.js'))
 			assert.ok(!!bundleFileStat)
+			let bundleContent = fs.readFileSync(path.join(__dirname, 'test.builder.env1/.dist/bundle.js'), 'utf8')
+			assert.ok(!(/\/\*/.test(bundleContent)))
 		})
 
 	})

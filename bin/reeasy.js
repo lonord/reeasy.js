@@ -21,7 +21,7 @@ program
 		process.env.NODE_ENV = 'production'
 		Promise.resolve()
 			.then(() => builder.readConfig(options.config, cwd))
-			.then(config => builder.prepareWebpack(config, true, cwd))
+			.then(config => builder.prepareWebpack(config, false, cwd))
 			.then(webpackConfig => builder.build(webpackConfig))
 			.catch(err => {
 				console.error(`\nError: ${err.message || err}\n`)

@@ -1,7 +1,7 @@
 const assert = require('assert')
 const routerCreate = require('../lib/router')
 
-describe('test router.js', () => {
+describe('test router', () => {
 
 	let router
 
