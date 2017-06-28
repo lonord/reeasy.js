@@ -4,8 +4,8 @@
   "description": "A hot module replacement framework for React apps",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha 'test/**/test.*.js' --timeout 60000",
-    "test-cover": "istanbul cover _mocha -- 'test/**/test.*.js' --timeout 60000"
+    "test": "mocha 'test/**/*.test.js' --timeout 60000",
+    "test-cover": "istanbul cover _mocha -- 'test/**/*.test.js' --timeout 60000"
   },
   "bin": {
     "reeasy": "bin/reeasy.js"
@@ -44,6 +44,7 @@
     "react-hot-loader": "^3.0.0-beta.7",
     "rimraf-then": "^1.0.1",
     "serve-static": "^1.12.3",
+    "touch": "^2.0.2",
     "url-pattern": "^1.0.3",
     "webpack": "^3.0.0",
     "webpack-dev-middleware": "^1.11.0",

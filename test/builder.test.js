@@ -14,7 +14,7 @@ describe('test builder.js', () => {
 			let cwd = path.join(__dirname, 'test.builder.env1')
 			let config = await builder.readConfig(null, cwd)
 			assert.ok(!!config)
-			assert.equal(config.rootPath, './app.js')
+			assert.equal(config.rootPath, './src/app.js')
 			assert.equal(config.selector, '#root')
 		})
 
@@ -22,7 +22,7 @@ describe('test builder.js', () => {
 			let cwd = path.join(__dirname, 'test.builder.env1')
 			let config = await builder.readConfig('custom-reeasy-config.js', cwd)
 			assert.ok(!!config)
-			assert.equal(config.rootPath, './app.js')
+			assert.equal(config.rootPath, './src/app.js')
 			assert.equal(config.selector, '.root')
 		})
 
@@ -30,7 +30,7 @@ describe('test builder.js', () => {
 			let cwd = path.join(__dirname, 'test.builder.env1')
 			let config = await builder.readConfig('custom-reeasy-config2.js', cwd)
 			assert.ok(!!config)
-			assert.equal(config.rootPath, './app.js')
+			assert.equal(config.rootPath, './src/app.js')
 			assert.equal(config.selector, 'article')
 		})
 

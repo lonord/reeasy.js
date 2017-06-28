@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 
 module.exports = {
-	rootPath: './app.js',
+	rootPath: './src/app.js',
 	selector: '#root',
 	webpack: (config, dev) => {
 		if (dev) {
