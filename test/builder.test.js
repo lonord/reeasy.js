@@ -184,6 +184,20 @@ describe('test builder', () => {
 			assert.ok(!(/\/\*/.test(bundleContent)))
 		})
 
+		it('build in production mode with custom `publicPath`', async () => {
+			let cwd = path.join(__dirname, 'test.builder.env1')
+			let config = await builder.readConfig('custom-reeasy-config3.js', cwd)
+			assert.ok(!!config)
+			let webpackConfig = await builder.prepareWebpack(config, false, cwd)
+			assert.ok(!!webpackConfig)
+			let output = await builder.build(webpackConfig)
+			assert.ok(!!output)
+			let bundleFileStat = await fileExists(path.join(cwd, '.dist/app/bundle.js'))
+			assert.ok(!!bundleFileStat)
+			let bundleContent = fs.readFileSync(path.join(__dirname, 'test.builder.env1/.dist/app/bundle.js'), 'utf8')
+			assert.ok(!(/\/\*/.test(bundleContent)))
+		})
+
 	})
 
 	describe('getDevMiddleware', () => {

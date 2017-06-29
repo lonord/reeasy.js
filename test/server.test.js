@@ -24,7 +24,7 @@ describe('test server', () => {
 		let app = server.createServer(middleWare).getApp()
 
 		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
-		await request(app).get('/bundle.js').expect(200)
+		await request(app).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
 		
 		await middleWare.closeWebpack()
 	})
@@ -40,7 +40,7 @@ describe('test server', () => {
 		let app = server.createServer(middleWare).getApp()
 
 		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
-		await request(app).get('/bundle.js').expect(200)
+		await request(app).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
 	})
 
 	it('custom server in development mode should run success', async () => {
@@ -54,7 +54,7 @@ describe('test server', () => {
 		app.use(middleware)
 
 		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
-		await request(app).get('/bundle.js').expect(200)
+		await request(app).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
 		
 		await middleware.closeWebpack()
 	})
@@ -75,6 +75,43 @@ describe('test server', () => {
 		app.use(middleware)
 
 		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
-		await request(app).get('/bundle.js').expect(200)
+		await request(app).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+	})
+
+	it('custom `publicPath` in development mode should run success', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env1')
+		let reeasy = index({
+			cwd: cwd,
+			dev: true,
+			conf: 'custom-reeasy-config3.js'
+		})
+		let middleware = await reeasy.prepare()
+		let app = express()
+		app.use(middleware)
+
+		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
+		await request(app).get('/app/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+		
+		await middleware.closeWebpack()
+	})
+
+	it('custom `publicPath` in production mode should run success', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env1')
+		let config = await builder.readConfig('custom-reeasy-config3.js', cwd)
+		assert.ok(!!config)
+		let webpackConfig = await builder.prepareWebpack(config, false, cwd)
+		await builder.build(webpackConfig)
+		
+		let reeasy = index({
+			cwd: cwd,
+			dev: false,
+			conf: 'custom-reeasy-config3.js'
+		})
+		let middleware = await reeasy.prepare()
+		let app = express()
+		app.use(middleware)
+
+		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
+		await request(app).get('/app/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
 	})
 })

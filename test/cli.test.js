@@ -85,7 +85,7 @@ describe('test cli', () => {
 				.get('/').expect(200).expect('Content-Type', 'text/html')
 				.end(() => {
 					request('http://localhost:3003')
-						.get('/bundle.js').expect(200)
+						.get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
 						.end(() => {
 							startCmd.kill('SIGINT')
 							done()
@@ -103,7 +103,7 @@ describe('test cli', () => {
 				.get('/').expect(200).expect('Content-Type', 'text/html')
 				.end(() => {
 					request('http://localhost:3003')
-						.get('/bundle.js').expect(200)
+						.get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
 						.end(() => {
 							startCmd.kill('SIGINT')
 							done()
