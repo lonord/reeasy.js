@@ -161,6 +161,30 @@ describe('test builder', () => {
 			assert.ok(find(webpackConfig.plugins, plugin => plugin instanceof webpack.IgnorePlugin))
 			assert.ok(find(webpackConfig.module.loaders[0].use.options.plugins, plugin => plugin == 'babel-plugin-my-prod'))
 		})
+
+		it('prepareWebpack with custom function `webpack` with no return should be fail', async() => {
+			let cwd = path.join(__dirname, 'test.builder.env1')
+			try {
+				let config = await builder.readConfig('custom-reeasy-config4.js', cwd)
+				let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+			} catch (e) {
+				assert.equal(e.message, 'Function `webpack` in reeasy config must return the new config')
+				return
+			}
+			assert.fail('code should not reach here')
+		})
+
+		it('prepareWebpack with custom function `babelLoaderConfig` with no return should be fail', async() => {
+			let cwd = path.join(__dirname, 'test.builder.env1')
+			try {
+				let config = await builder.readConfig('custom-reeasy-config5.js', cwd)
+				let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+			} catch (e) {
+				assert.equal(e.message, 'Function `babelLoaderConfig` in reeasy config must return the new config')
+				return
+			}
+			assert.fail('code should not reach here')
+		})
 	})
 
 	describe('build', () => {
@@ -215,6 +239,30 @@ describe('test builder', () => {
 			let middleWare = await builder.getDevMiddleware(webpackConfig, config, cwd)
 			assert.ok(!!middleWare)
 			await middleWare.closeWebpack()
+		})
+
+		it('getDevMiddleware with custom function `devMiddlewareConfig` should success', async () => {
+			let cwd = path.join(__dirname, 'test.builder.env1')
+			let config = await builder.readConfig('custom-reeasy-config7.js', cwd)
+			assert.ok(!!config)
+			let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+			let middleWare = await builder.getDevMiddleware(webpackConfig, config, cwd)
+			assert.ok(!!middleWare)
+			await middleWare.closeWebpack()
+		})
+
+		it('getDevMiddleware with custom function `devMiddlewareConfig` with no return should be fail', async() => {
+			let cwd = path.join(__dirname, 'test.builder.env1')
+			try {
+				let config = await builder.readConfig('custom-reeasy-config6.js', cwd)
+				let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+				let middleWare = await builder.getDevMiddleware(webpackConfig, config, cwd)
+				await middleWare.closeWebpack()
+			} catch (e) {
+				assert.equal(e.message, 'Function `devMiddlewareConfig` in reeasy config must return the new config')
+				return
+			}
+			assert.fail('code should not reach here')
 		})
 
 	})

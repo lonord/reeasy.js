@@ -45,6 +45,44 @@ describe('test server', () => {
 		await request(app).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
 	})
 
+	it('built-in server in development mode should run success', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env1')
+		let config = await builder.readConfig(null, cwd)
+		assert.ok(!!config)
+		let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+		let middleWare = await builder.getDevMiddleware(webpackConfig, config, cwd)
+		assert.ok(!!middleWare)
+		let app = server.createServer(middleWare)
+		await app.listen(3003)
+
+		await new Promise(resolve => {
+			setTimeout(resolve, 5000)
+		})
+
+		await request('http://localhost:3003').get('/').expect(200).expect('Content-Type', 'text/html')
+		await request('http://localhost:3003').get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+		
+		await middleWare.closeWebpack()
+		app.close()
+	})
+
+	it('built-in server in production mode should run success', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env1')
+		let config = await builder.readConfig(null, cwd)
+		assert.ok(!!config)
+		let webpackConfig = await builder.prepareWebpack(config, false, cwd)
+		await builder.build(webpackConfig)
+		let middleWare = await builder.getProdMiddleware(config, cwd)
+		assert.ok(!!middleWare)
+		let app = server.createServer(middleWare)
+		await app.listen(3003)
+
+		await request('http://localhost:3003').get('/').expect(200).expect('Content-Type', 'text/html')
+		await request('http://localhost:3003').get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+
+		app.close()
+	})
+
 	it('custom server in development mode should run success', async () => {
 		let cwd = path.join(__dirname, 'test.builder.env1')
 		let reeasy = index({
