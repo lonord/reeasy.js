@@ -12,6 +12,8 @@ describe('test server', () => {
 	afterEach(async () => {
 		await rimraf(path.join(__dirname, 'test.builder.env1/.reeasy'))
 		await rimraf(path.join(__dirname, 'test.builder.env1/.dist'))
+		await rimraf(path.join(__dirname, 'test.builder.env5/.reeasy'))
+		await rimraf(path.join(__dirname, 'test.builder.env5/.dist'))
 	})
 	
 	it('server in development mode should run success', async () => {
@@ -113,5 +115,42 @@ describe('test server', () => {
 
 		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
 		await request(app).get('/app/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+	})
+
+	it('with `file-loader` in development mode should run success', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env5')
+		let reeasy = index({
+			cwd: cwd,
+			dev: true
+		})
+		let middleware = await reeasy.prepare()
+		let app = express()
+		app.use(middleware)
+
+		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
+		await request(app).get('/my/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+		await request(app).get('/my/icon.png').expect(200).expect('Content-Type', /image\/png/)
+		
+		await middleware.closeWebpack()
+	})
+
+	it('with `file-loader` in production mode should run success', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env5')
+		let config = await builder.readConfig(null, cwd)
+		assert.ok(!!config)
+		let webpackConfig = await builder.prepareWebpack(config, false, cwd)
+		await builder.build(webpackConfig)
+		
+		let reeasy = index({
+			cwd: cwd,
+			dev: false,
+		})
+		let middleware = await reeasy.prepare()
+		let app = express()
+		app.use(middleware)
+
+		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
+		await request(app).get('/my/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+		await request(app).get('/my/icon.png').expect(200).expect('Content-Type', /image\/png/)
 	})
 })
