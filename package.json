@@ -1,6 +1,6 @@
 {
   "name": "reeasy",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "A hot module replacement framework for React apps",
   "main": "lib/index.js",
   "scripts": {
