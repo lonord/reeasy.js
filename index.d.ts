@@ -30,4 +30,6 @@ declare module "reeasy" {
 	 * @param opts 
 	 */
 	function create(opts: ReeasyConfig): Reeasy
+
+	export = create
 }
