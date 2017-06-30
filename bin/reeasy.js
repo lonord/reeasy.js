@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+ * Created on Fri Jun 30 2017
+ *
+ * Copyright (c) 2017 Loy B. <lonord@qq.com>
+ */
+
 const program = require('commander')
 const package = require('../package.json')
 const builder = require('../lib/builder')

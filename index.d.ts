@@ -1,3 +1,8 @@
+/*
+ * Created on Fri Jun 30 2017
+ *
+ * Copyright (c) 2017 Loy B. <lonord@qq.com>
+ */
 interface ReeasyConfig {
 	/**
 	 * Current work directory, use `process.cwd()` by default
