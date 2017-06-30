@@ -31,6 +31,21 @@ describe('test server', () => {
 		await middleWare.closeWebpack()
 	})
 
+	it('server in development mode with incorrect `indexHTML` config should fail', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env2')
+		let config = await builder.readConfig('custom-reeasy-config.js', cwd)
+		assert.ok(!!config)
+		let webpackConfig = await builder.prepareWebpack(config, true, cwd)
+		let middleWare = await builder.getDevMiddleware(webpackConfig, config, cwd)
+		assert.ok(!!middleWare)
+		let app = server.createServer(middleWare).getApp()
+
+		await request(app).get('/').expect(404)
+		await request(app).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+		
+		await middleWare.closeWebpack()
+	})
+
 	it('server in production mode should run success', async () => {
 		let cwd = path.join(__dirname, 'test.builder.env1')
 		let config = await builder.readConfig(null, cwd)

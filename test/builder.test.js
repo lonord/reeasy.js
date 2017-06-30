@@ -67,16 +67,6 @@ describe('test builder', () => {
 			assert.fail('code should not reach here')
 		})
 
-		it('readConfig connot find file specified in `indexHTML` should be fail', async() => {
-			let cwd = path.join(__dirname, 'test.builder.env2')
-			try {
-				let config = await builder.readConfig('custom-reeasy-config.js', cwd)
-			} catch (e) {
-				assert.equal(e.message, 'File specified in `indexHTML` could not be found!')
-				return
-			}
-			assert.fail('code should not reach here')
-		})
 	})
 
 	describe('prepareWebpack', () => {
