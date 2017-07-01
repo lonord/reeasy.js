@@ -88,7 +88,7 @@ describe('test builder', () => {
 			assert.equal(webpackConfig.entry[0], 'eventsource-polyfill')
 			assert.ok(find(webpackConfig.entry, entry => entry == 'eventsource-polyfill'))
 			assert.ok(find(webpackConfig.entry, entry => entry == 'react-hot-loader/patch'))
-			assert.ok(find(webpackConfig.entry, entry => entry == 'webpack-hot-middleware/client'))
+			assert.ok(find(webpackConfig.entry, entry => entry == 'webpack-hot-middleware/client?reload=true&timeout=5000'))
 			assert.ok(find(webpackConfig.entry, entry => entry == path.join(cwd, './.reeasy/__entry.js')))
 			assert.ok(find(webpackConfig.plugins, plugin => plugin instanceof webpack.DefinePlugin))
 			assert.ok(find(webpackConfig.plugins, plugin => plugin instanceof webpack.HotModuleReplacementPlugin))
