@@ -1,7 +1,7 @@
 {
   "name": "reeasy",
   "version": "0.5.8",
-  "description": "A hot module replacement framework for React apps",
+  "description": "Framework of React app with easy configuration. Support HMR and custom server. As simple as next.js.",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha 'test/**/*.test.js' --timeout 60000",
