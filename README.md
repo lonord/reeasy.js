@@ -1,7 +1,14 @@
 # Reeasy.js
+
 Framework of React app with easy configuration. Support HMR and custom server. As simple as next.js.
 
 ## How to use
+
+- [Setup](#setup)
+- [Run in production mode](#run-in-production-mode)
+- [Custom configuration](#custom-configuration)
+- [Cli](#cli)
+- [Custom server](#custom-server)
 
 ### Setup
 
@@ -136,7 +143,7 @@ module.exports = {
 }
 ```
 
-### Reeasy cli
+### Cli
 
 Reeasy cli usage
 
