@@ -3,6 +3,7 @@ const request = require('supertest')
 const path = require('path')
 const rimraf = require('rimraf-then')
 const express = require('express')
+const koa = require('koa')
 const server = require('../lib/server')
 const builder = require('../lib/builder')
 const index = require('../lib/index')
@@ -131,6 +132,41 @@ describe('test server', () => {
 
 		await request(app).get('/').expect(200).expect('Content-Type', 'text/html')
 		await request(app).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+	})
+
+	it('custom koa server in development mode should run success', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env1')
+		let reeasy = index({
+			cwd: cwd,
+			dev: true
+		})
+		let middleware = await reeasy.prepare()
+		let app = new koa()
+		app.use(middleware.koa())
+
+		await request(app.callback()).get('/').expect(200).expect('Content-Type', 'text/html')
+		await request(app.callback()).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
+		
+		await middleware.closeWebpack()
+	})
+
+	it('custom koa server in production mode should run success', async () => {
+		let cwd = path.join(__dirname, 'test.builder.env1')
+		let config = await builder.readConfig(null, cwd)
+		assert.ok(!!config)
+		let webpackConfig = await builder.prepareWebpack(config, false, cwd)
+		await builder.build(webpackConfig)
+		
+		let reeasy = index({
+			cwd: cwd,
+			dev: false
+		})
+		let middleware = await reeasy.prepare()
+		let app = new koa()
+		app.use(middleware.koa())
+
+		await request(app.callback()).get('/').expect(200).expect('Content-Type', 'text/html')
+		await request(app.callback()).get('/bundle.js').expect(200).expect('Content-Type', /application\/javascript/)
 	})
 
 	it('custom `publicPath` in development mode should run success', async () => {

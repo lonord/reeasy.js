@@ -20,6 +20,10 @@ interface ReeasyConfig {
 }
 
 interface ReeasyMiddleware {
+	/**
+	 * Get middleware instance for koa
+	 */
+	koa(): any
 }
 
 interface Reeasy {
