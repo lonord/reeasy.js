@@ -1,5 +1,7 @@
 # Reeasy.js
 
+[![version](https://img.shields.io/npm/v/reeasy.svg?style=flat-square)](https://www.npmjs.com/package/reeasy) [![build](https://img.shields.io/travis/lonord/reeasy.js.svg?style=flat-square)](https://travis-ci.org/lonord/reeasy.js) [![Coverage Status](https://coveralls.io/repos/github/lonord/reeasy.js/badge.svg?branch=master)](https://coveralls.io/github/lonord/reeasy.js?branch=master)
+
 Framework of React app with easy configuration. Support HMR and custom server. As simple as next.js.
 
 ## How to use
