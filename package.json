@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha 'test/**/*.test.js' --timeout 60000",
-    "test-cover": "istanbul cover _mocha -- 'test/**/*.test.js' --timeout 60000"
+    "test-cover": "istanbul cover _mocha --report lcovonly -- 'test/**/*.test.js' --timeout 60000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "bin": {
     "reeasy": "bin/reeasy.js"
@@ -56,12 +56,14 @@
   },
   "devDependencies": {
     "coffee": "^4.0.1",
+    "coveralls": "^2.13.1",
     "file-exists-promise": "^1.0.2",
     "file-loader": "^0.11.2",
     "istanbul": "^0.4.5",
     "koa": "^2.3.0",
     "lodash.find": "^4.6.0",
     "mocha": "^3.4.2",
+    "mocha-lcov-reporter": "^1.3.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "supertest": "^3.0.0",

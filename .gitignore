@@ -60,3 +60,6 @@ typings/
 .reeasy
 
 coverage/
+
+# private file
+.coveralls.yml
