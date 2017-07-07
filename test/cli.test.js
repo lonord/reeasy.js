@@ -16,27 +16,10 @@ describe('test cli', () => {
 	})
 
 	it('reeasy show help info should success', done => {
-		const expectStdout =
-			'\n' +
-			'  Usage: reeasy <dev|build|start>\n' +
-			'\n' +
-			'\n' +
-			'  Commands:\n' +
-			'\n' +
-			'    build [options]   Run reeasy to build files for production\n' +
-			'    start [options]   Run reeasy in development mode\n' +
-			'    dev [options]     Run reeasy in development mode, with HMR support\n' +
-			'\n' +
-			'  Options:\n' +
-			'\n' +
-			'    -h, --help     output usage information\n' +
-			'    -V, --version  output the version number\n' +
-			'\n'
-		
 		coffee.spawn(path.join(__dirname, '../bin/reeasy.js'), {
 			cwd: path.join(__dirname, 'test.builder.env1')
 		})
-			.expect('stdout', expectStdout)
+			.expect('stdout', /Usage:/)
 			.expect('code', 0)
 			.end(done)
 	})
