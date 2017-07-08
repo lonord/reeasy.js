@@ -45,12 +45,12 @@ describe('test builder', () => {
 			assert.equal(config.selector, '#root')
 		})
 
-		it('readConfig cannot find config file `easy.config.js` should be fail', async() => {
+		it('readConfig cannot find config file `reeasy.config.js` should be fail', async() => {
 			let cwd = path.join(__dirname, '.')
 			try {
 				let config = await builder.readConfig(null, cwd)
 			} catch (e) {
-				assert.equal(e.message, 'A config file `easy.config.js` in root directory of your project is required!')
+				assert.equal(e.message, 'A config file `reeasy.config.js` in root directory of your project is required!')
 				return
 			}
 			assert.fail('code should not reach here')
