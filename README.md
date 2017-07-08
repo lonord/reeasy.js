@@ -4,6 +4,8 @@
 
 Framework of React app with easy configuration. Support HMR and custom server. As simple as next.js.
 
+Mostly ES6/React feature has be built in Reeasy.js. If you need more, just [custom babel loader config](#custom-configuration).
+
 ## How to use
 
 - [Setup](#setup)
