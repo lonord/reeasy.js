@@ -1,11 +1,11 @@
 {
   "name": "reeasy",
-  "version": "0.5.9",
+  "version": "0.5.10",
   "description": "Framework of React app with easy configuration. Support HMR and custom server. As simple as next.js.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha 'test/**/*.test.js' --timeout 60000",
-    "test-cover": "istanbul cover _mocha --report lcovonly -- 'test/**/*.test.js' --timeout 60000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "test-only": "mocha 'test/**/*.test.js' --timeout 60000",
+    "test": "istanbul cover _mocha --report lcovonly -- 'test/**/*.test.js' --timeout 60000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "bin": {
     "reeasy": "bin/reeasy.js"
