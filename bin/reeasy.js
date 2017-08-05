@@ -7,6 +7,7 @@
  */
 
 const program = require('commander')
+const path = require('path')
 const package = require('../package.json')
 const builder = require('../lib/builder')
 const server = require('../lib/server')
@@ -24,7 +25,7 @@ program
 	.option('-w, --cwd <value>', 'Custom working directory')
 	.action((options) => {
 		handled = true
-		const cwd = options.cwd || process.cwd()
+		const cwd = options.cwd ? path.join(process.cwd(), options.cwd) : process.cwd()
 		process.env.NODE_ENV = 'production'
 		Promise.resolve()
 			.then(() => builder.readConfig(options.config, cwd))
@@ -42,7 +43,7 @@ program
 	.option('-w, --cwd <value>', 'Custom working directory')
 	.action((options) => {
 		handled = true
-		const cwd = options.cwd || process.cwd()
+		const cwd = options.cwd ? path.join(process.cwd(), options.cwd) : process.cwd()
 		process.env.NODE_ENV = 'production'
 		let port = parseInt(options.port)
 		if (isNaN(port)) {
@@ -69,7 +70,7 @@ program
 	.option('-w, --cwd <value>', 'Custom working directory')
 	.action((options) => {
 		handled = true
-		const cwd = options.cwd || process.cwd()
+		const cwd = options.cwd ? path.join(process.cwd(), options.cwd) : process.cwd()
 		process.env.NODE_ENV = 'development'
 		let port = parseInt(options.port)
 		if (isNaN(port)) {
