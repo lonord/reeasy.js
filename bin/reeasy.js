@@ -21,9 +21,10 @@ program
 	.command('build')
 	.description('Run reeasy to build files for production')
 	.option('-c, --config <value>', 'Custom reeasy config file')
+	.option('-w, --cwd <value>', 'Custom working directory')
 	.action((options) => {
 		handled = true
-		const cwd = process.cwd()
+		const cwd = options.cwd || process.cwd()
 		process.env.NODE_ENV = 'production'
 		Promise.resolve()
 			.then(() => builder.readConfig(options.config, cwd))
@@ -38,9 +39,10 @@ program
 	.command('start')
 	.description('Run reeasy in development mode')
 	.option('-p, --port <n>', 'Port to listen for http server')
+	.option('-w, --cwd <value>', 'Custom working directory')
 	.action((options) => {
 		handled = true
-		const cwd = process.cwd()
+		const cwd = options.cwd || process.cwd()
 		process.env.NODE_ENV = 'production'
 		let port = parseInt(options.port)
 		if (isNaN(port)) {
@@ -64,9 +66,10 @@ program
 	.description('Run reeasy in development mode, with HMR support')
 	.option('-c, --config <value>', 'Custom reeasy config file')
 	.option('-p, --port <n>', 'Port to listen for http server')
+	.option('-w, --cwd <value>', 'Custom working directory')
 	.action((options) => {
 		handled = true
-		const cwd = process.cwd()
+		const cwd = options.cwd || process.cwd()
 		process.env.NODE_ENV = 'development'
 		let port = parseInt(options.port)
 		if (isNaN(port)) {

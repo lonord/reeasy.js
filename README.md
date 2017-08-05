@@ -159,6 +159,7 @@ options
 
 - `-c, --config` Custom reeasy configuration file
 - `-p, --port` Port to listen for http server
+- `-w, --cwd` Custom working directory
 
 ### Custom server
 

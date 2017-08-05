@@ -1,6 +1,6 @@
 {
   "name": "reeasy",
-  "version": "0.5.13",
+  "version": "0.5.14",
   "description": "Framework of React app with easy configuration. Support HMR and custom server. As simple as next.js.",
   "main": "lib/index.js",
   "scripts": {
