@@ -32,7 +32,7 @@ program
 			.then(config => builder.prepareWebpack(config, false, cwd))
 			.then(webpackConfig => builder.build(webpackConfig))
 			.catch(err => {
-				console.error(`\nError: ${err.message || err}\n`)
+				console.error(err)
 			})
 	})
 
@@ -58,7 +58,7 @@ program
 				console.log('> Ready on http://localhost:' + port)
 			})
 			.catch(err => {
-				console.error(`\nError: ${err.message || err}\n`)
+				console.error(err)
 			})
 	})
 
@@ -91,7 +91,7 @@ program
 				console.log('> Ready on http://localhost:' + port)
 			})
 			.catch(err => {
-				console.error(`\nError: ${err.message || err}\n`)
+				console.error(err)
 			})
 	})
 
